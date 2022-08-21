@@ -10,11 +10,12 @@ SOURCE_FILES?=$$(go list ./... | grep -v /vendor/)
 TEST_PATTERN?=.
 TEST_OPTIONS?=
 
-BIN_DIR := $(CURDIR)/bin
+BIN_DIR := $(GOPATH)/bin
 
 ci: prepare test
 
 mod:
+	@go install github.com/goreleaser/goreleaser@latest
 	@go mod download
 	@go mod tidy
 .PHONY: mod

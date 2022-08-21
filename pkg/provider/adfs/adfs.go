@@ -103,6 +103,13 @@ func (ac *Client) Authenticate(loginDetails *creds.LoginDetails) (string, error)
 		authSubmitURL = parsedUrl.ResolveReference(parsedPath).String()
 	}
 
+	// remove duplicate values
+	for k, v := range authForm {
+		if len(v) > 1 {
+			authForm[k] = v[:1]
+		}
+	}
+
 	doc, err = ac.submit(authSubmitURL, authForm)
 	if err != nil {
 		return samlAssertion, errors.Wrap(err, "failed to submit adfs auth form")
